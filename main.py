@@ -44,4 +44,4 @@ def root():
 
 @app.get('/dog/{pk}', response_model=Dog)
 def get_dog_by_pk(pk: int):
-    dogs_db[pk]
+    return dogs_db[pk]
