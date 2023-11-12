@@ -1,7 +1,7 @@
 from enum import Enum
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from typing import List
 app = FastAPI()
 
 
@@ -47,7 +47,7 @@ def root():
 def get_post():
     return post_db[0]
 
-@app.get('/dog', response_model=list[Dog])
+@app.get('/dog', response_model=List[Dog])
 def get_dogs(kind: DogType):
     final_dogs = []
     if kind:
