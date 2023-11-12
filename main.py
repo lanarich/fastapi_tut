@@ -48,7 +48,7 @@ def get_post():
     return post_db[0]
 
 @app.get('/dog', response_model=List[Dog])
-def get_dogs(kind: DogType):
+def get_dogs(kind: DogType = None):
     final_dogs = []
     if kind:
         for i in dogs_db.values():
