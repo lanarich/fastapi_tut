@@ -42,6 +42,36 @@ post_db = [
 def root():
     return {"message": "Hello, User!"}
 
+
+@app.post('/post', response_model=Timestamp)
+def get_post():
+    return post_db[0]
+
+@app.get('/dog', response_model=list[Dog])
+def get_dogs(kind: DogType):
+    final_dogs = []
+    if kind:
+        for i in dogs_db.values():
+            if i.kind == kind:
+                final_dogs.append(i)
+        return final_dogs
+    else:
+        return list(dogs_db.values())
+
+@app.post('/dog', response_model=Dog)
+def create_dog(dog: Dog):
+    pk = max(dogs_db.keys()) + 1
+    dog.pk = pk
+    dogs_db[pk] = dog
+    return dog
+
 @app.get('/dog/{pk}', response_model=Dog)
 def get_dog_by_pk(pk: int):
     return dogs_db[pk]
+
+@app.patch('/dog/{pk}', response_model=Dog)
+def update_dog(pk: int, new_dog: Dog):
+    dogs_db[pk].name = new_dog.name
+    dogs_db[pk].kind = new_dog.kind
+    return dogs_db[pk]
+
