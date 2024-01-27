@@ -17,11 +17,6 @@ class Dog(BaseModel):
     kind: DogType
 
 
-class Timestamp(BaseModel):
-    id: int
-    timestamp: int
-
-
 dogs_db = {
     0: Dog(name='Bob', pk=0, kind='terrier'),
     1: Dog(name='Marli', pk=1, kind="bulldog"),
@@ -32,20 +27,15 @@ dogs_db = {
     6: Dog(name='Uga', pk=6, kind='bulldog')
 }
 
-post_db = [
-    Timestamp(id=0, timestamp=12),
-    Timestamp(id=1, timestamp=10)
-]
-
 
 @app.get("/")
 def root():
     return {"message": "Hello, User!"}
 
 
-@app.post('/post', response_model=Timestamp)
+@app.post('/post', response_model=List[Dog])
 def get_post():
-    return post_db[0]
+    return dogs_db.values()
 
 @app.get('/dog', response_model=List[Dog])
 def get_dogs(kind: DogType = None):

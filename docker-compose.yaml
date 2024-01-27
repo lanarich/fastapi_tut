@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  telegram_bot:
+    build:
+      context: ./tg_bot/bot
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+
+  fastapi_service:
+    build:
+      context: ./fastapi_service
+    ports:
+      - "5555:5555"
